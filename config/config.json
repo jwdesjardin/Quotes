@@ -1,0 +1,14 @@
+{
+  "development": {
+    "dialect": "sqlite",
+    "storage": "quotes-restapi.db"
+  },
+  "test": {
+    "dialect": "sqlite",
+    "storage": "quotes-restapi.db"
+  },
+  "production": {
+    "dialect": "sqlite",
+    "storage": "quotes-restapi.db"
+  }
+}

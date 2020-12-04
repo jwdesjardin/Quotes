@@ -39,8 +39,10 @@ function asyncHandler(cb){
     }
 }
 
-const routes = require('./routes/routes.js');
-app.use(routes);
+const tagRoutes = require('./routes/tag.js');
+const authorRoutes = require('./routes/author.js');
+app.use('/tag', tagRoutes);
+app.use('/author', authorRoutes);
 
 // setup a friendly greeting for the root route
 app.get('/', (req, res) => {
@@ -55,8 +57,7 @@ app.get('/quotes', asyncHandler(async (req, res) => {
     const quotes = await Quote.findAll({
         include: [{
             model: Topic,
-            as: 'topic',
-            attributes: { exclude: ['id', 'createdAt', 'updatedAt']}
+            attributes: { exclude: ['id', 'createdAt', 'updatedAt', "QuoteTopics"]},
           }]
     });
     res.status(200).json(quotes);
@@ -66,6 +67,10 @@ app.get('/quotes', asyncHandler(async (req, res) => {
 app.post('/quotes', asyncHandler(async (req, res) => {
 //Returns the currently authenticated user
     const quote = await Quote.create(req.body);
+    const topic1 = await Topic.findOne({ where: { id: 1 }});
+    const topic2 = await Topic.findOne({ where: { id: 2 }});
+    await quote.addTopic(topic1);
+    await quote.addTopic(topic2);
     res.status(201).json(quote);
 }));
 

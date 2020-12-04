@@ -15,21 +15,21 @@ function asyncHandler(cb){
 }
 
 /* GET  */
-router.get('/topics', asyncHandler(async (req, res) => {
+router.get('/', asyncHandler(async (req, res) => {
 //Returns the currently authenticated user
     const topics = await Topic.findAll();
     res.status(200).json(topics);
 }));
 
 /* POST  */
-router.post('/topics', asyncHandler(async (req, res) => {
+router.post('/', asyncHandler(async (req, res) => {
 //Returns the currently authenticated user
     const topic = await Topic.create(req.body);
     res.status(201).json(topic);
 }));
 
     /* DELETE  */
-router.delete('/topics/:id', asyncHandler(async (req, res) => {
+router.delete('/:id', asyncHandler(async (req, res) => {
 
     //Deletes a course and returns no content
     const topic = await Topic.findByPk(req.params.id);

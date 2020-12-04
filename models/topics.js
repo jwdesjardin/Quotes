@@ -16,12 +16,10 @@ module.exports = (sequelize) => {
   }, { sequelize });
 
  
+  
   Topic.associate = (models) => {
-    Topic.hasMany(models.Quote, {
-        as: 'topic',
-        foreignKey: {
-          fieldName: 'topicId'
-        },
+    Topic.belongsToMany(models.Quote, {
+        through: 'QuoteTopics'
       });    
   };
 

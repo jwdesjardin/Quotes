@@ -2,22 +2,26 @@
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
-  class Quote extends Sequelize.Model {}
-  Quote.init({
+  class Author extends Sequelize.Model {}
+  Author.init({
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    verse: {
+    firstName: {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    sourceText: {
+    lastName: {
       type: Sequelize.STRING,
+      allowNull: false,
+    },
+    bornDate: {
+      type: Sequelize.DATE,
       
     },
-    date: {
+    deadDate: {
       type: Sequelize.DATE,
       
     }
@@ -25,12 +29,9 @@ module.exports = (sequelize) => {
 
  
   
-  Quote.associate = (models) => {
-    Quote.belongsToMany(models.Topic, {
-        through: 'QuoteTopics'
-      });
-    Quote.belongsTo(models.Author);    
+  Author.associate = (models) => {
+    Author.hasMany(models.Quote);    
   };
 
-  return Quote;
+  return Author;
 };

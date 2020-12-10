@@ -9,20 +9,19 @@ module.exports = (sequelize) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    firstName: {
+    name: {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    lastName: {
+    location: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
-    bornDate: {
-      type: Sequelize.DATE,
+    bornYear: {
+      type: Sequelize.STRING,
       
     },
-    deadDate: {
-      type: Sequelize.DATE,
+    deadYear: {
+      type: Sequelize.STRING,
       
     }
   }, { sequelize });

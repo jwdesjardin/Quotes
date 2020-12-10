@@ -18,7 +18,7 @@ module.exports = (sequelize) => {
       
     },
     date: {
-      type: Sequelize.DATE,
+      type: Sequelize.STRING,
       
     }
   }, { sequelize });
@@ -26,9 +26,10 @@ module.exports = (sequelize) => {
  
   
   Quote.associate = (models) => {
-    Quote.belongsToMany(models.Topic, {
-        through: 'QuoteTopics'
+    Quote.belongsToMany(models.Tag, {
+        through: 'QuoteTags'
       });
+      
     Quote.belongsTo(models.Author);    
   };
 

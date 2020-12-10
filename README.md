@@ -1,2 +1,3 @@
-# Quotes
- REST API for Quotes that I want to remember. 
+# Quotes App
+
+### Includes a REST API and React Client.

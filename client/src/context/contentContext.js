@@ -69,8 +69,7 @@ export const Provider = props => {
 			.then(({ data }) => {
 				// update state
 				const workingState = [ ...tags ];
-				const result = workingState.filter(tag => tag.id !== id);
-				console.log('7', 'setting new tags', result, tags);
+				const result = workingState.filter(tag => tag.id !== parseInt(id));
 				setTags([ ...result ]);
 			})
 			.catch(err => {

@@ -1,14 +1,8 @@
-import { Container, Form, Button } from 'react-bootstrap';
-import { useRef, useEffect, Fragment, useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ContentContext } from '../../context/contentContext';
+import { Row, Form, Button } from 'react-bootstrap';
+import { useRef, useEffect, Fragment, useState } from 'react';
 
-const UpdateTag = props => {
-	const { updateTag, getTagById, tags } = useContext(ContentContext);
-
+const UpdateTag = ({ updateTag, getTagById, tags, id, setUpdateId }) => {
 	const [ currentTag, setCurrentTag ] = useState({});
-
-	const { id } = props.match.params;
 
 	useEffect(
 		() => {
@@ -31,40 +25,45 @@ const UpdateTag = props => {
 
 		try {
 			await updateTag(id, body);
-			props.history.push('/tags');
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
+	const closeModule = e => {
+		e.preventDefault();
+		setUpdateId(0);
+	};
+
 	return (
-		<Container>
-			{currentTag && (
-				<Fragment>
-					<h1>Update Tag</h1>
-					<Form onSubmit={updateHandler}>
-						<Form.Group>
-							<Form.Label>Id</Form.Label>
-							<Form.Control type='text' defaultValue={currentTag.id} disabled />
-						</Form.Group>
+		<Row>
+			<div className='border p-4'>
+				<h3>Update Tag: </h3>
+				{currentTag && (
+					<Fragment>
+						<Form onSubmit={updateHandler}>
+							<Form.Group>
+								<Form.Label>Id</Form.Label>
+								<Form.Control type='text' defaultValue={currentTag.id} disabled />
+							</Form.Group>
 
-						<Form.Group>
-							<Form.Label>Tag</Form.Label>
-							<Form.Control type='text' defaultValue={currentTag.name} ref={tagInput} />
-						</Form.Group>
+							<Form.Group>
+								<Form.Label>Tag</Form.Label>
+								<Form.Control type='text' defaultValue={currentTag.name} ref={tagInput} />
+							</Form.Group>
 
-						<Button className='m-2' variant='primary' type='submit'>
-							Update Tag
-						</Button>
-					</Form>
-				</Fragment>
-			)}
-			<Link to='/'>
-				<Button className='m-2' variant='secondary'>
-					Home
+							<Button className='m-2' variant='primary' type='submit'>
+								Update Tag
+							</Button>
+						</Form>
+					</Fragment>
+				)}
+
+				<Button className='m-2' variant='secondary' onClick={closeModule}>
+					Close
 				</Button>
-			</Link>
-		</Container>
+			</div>
+		</Row>
 	);
 };
 

@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
-import { Card, Container, Row, Button } from 'react-bootstrap';
+import { Col, Container, Row, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { ContentContext } from '../../context/contentContext';
 
@@ -30,30 +30,42 @@ const Quotes = props => {
 	return (
 		<Container>
 			<h1 className='mb-3'>Quotes</h1>
+			<Row style={{ height: '20px' }} />
 			<Button onClick={() => setAddQuoteDisplay(true)}>Add Quote</Button>
+			<Container>
+				<Row>
+					<Col className='m-3'>
+						<Row>
+							<AllQuotes deleteQuote={deleteQuote} quotes={quotes} setUpdateId={setUpdateId} />
+						</Row>
+					</Col>
 
-			<Row style={{ height: '20px' }} />
+					<Col className='m-3'>
+						{addQuoteDisplay && (
+							<AddQuote
+								createQuote={createQuote}
+								setAddQuoteDisplay={setAddQuoteDisplay}
+								authors={authors}
+							/>
+						)}
+					</Col>
 
-			<AllQuotes deleteQuote={deleteQuote} quotes={quotes} setUpdateId={setUpdateId} />
-
-			<Row style={{ height: '20px' }} />
-
-			{updateId > 0 ? (
-				<UpdateQuote
-					quotes={quotes}
-					getQuote={getQuote}
-					updateQuote={updateQuote}
-					setUpdateId={setUpdateId}
-					id={updateId}
-					authors={authors}
-				/>
-			) : (
-				<p>Nothing to update</p>
-			)}
-
-			{addQuoteDisplay && (
-				<AddQuote createQuote={createQuote} setAddQuoteDisplay={setAddQuoteDisplay} authors={authors} />
-			)}
+					<Col className='m-3'>
+						{updateId > 0 ? (
+							<UpdateQuote
+								quotes={quotes}
+								getQuote={getQuote}
+								updateQuote={updateQuote}
+								setUpdateId={setUpdateId}
+								id={updateId}
+								authors={authors}
+							/>
+						) : (
+							<p>Nothing to update</p>
+						)}
+					</Col>
+				</Row>
+			</Container>
 
 			<Row style={{ height: '20px' }} />
 

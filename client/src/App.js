@@ -12,21 +12,19 @@ import UpdateQuote from './components/quotes/updateQuote';
 import { ContentContext } from './context/contentContext';
 
 function App() {
-	// useEffect(
-	// 	() => {
-	// 		(async () => {
-	// 			try {
-	// 				await getAllQuotes();
-	// 				await getAllAuthors();
-	// 				await getAllTags();
-	// 				console.log('Component did mount finished.');
-	// 			} catch (error) {
-	// 				console.log(error);
-	// 			}
-	// 		})();
-	// 	},
-	// 	[ tags, authors, quotes ]
-	// );
+	// 	useEffect(
+	// 		() => {
+	// 			(async () => {
+	// 				try {
+	// 					await getAllTags();
+	// 					console.log('Setting Tags', tags);
+	// 				} catch (error) {
+	// 					console.log(error);
+	// 				}
+	// 			})();
+	// 		},
+	// 		[  ]
+	// 	);
 
 	return (
 		<BrowserRouter>

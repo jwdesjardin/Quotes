@@ -1,4 +1,4 @@
-import { Container, Button, Row, Card } from 'react-bootstrap';
+import { Col, Container, Button, Row } from 'react-bootstrap';
 import { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ContentContext } from '../../context/contentContext';
@@ -20,29 +20,34 @@ const Tags = props => {
 	return (
 		<Container>
 			<h1 className='mb-3'>Tags</h1>
+			<Row style={{ height: '20px' }} />
 			<Button onClick={() => setAddTagDisplay(true)}>Add Tag</Button>
+			<Container>
+				<Row>
+					<Col className='m-3'>
+						<Row>
+							<AllTags deleteTag={deleteTag} tags={tags} setUpdateId={setUpdateId} />
+						</Row>
+					</Col>
+					<Col className='m-3'>
+						{addTagDisplay && <AddTag createTag={createTag} setAddTagDisplay={setAddTagDisplay} />}
+					</Col>
 
-			<Row style={{ height: '20px' }} />
-
-			<AllTags deleteTag={deleteTag} tags={tags} setUpdateId={setUpdateId} />
-
-			<Row style={{ height: '20px' }} />
-
-			{updateId > 0 ? (
-				<UpdateTag
-					tags={tags}
-					getTagById={getTagById}
-					updateTag={updateTag}
-					setUpdateId={setUpdateId}
-					id={updateId}
-				/>
-			) : (
-				<p>Nothing to update</p>
-			)}
-
-			<Row style={{ height: '20px' }} />
-
-			{addTagDisplay && <AddTag createTag={createTag} setAddTagDisplay={setAddTagDisplay} />}
+					<Col className='m-3'>
+						{updateId > 0 ? (
+							<UpdateTag
+								tags={tags}
+								getTagById={getTagById}
+								updateTag={updateTag}
+								setUpdateId={setUpdateId}
+								id={updateId}
+							/>
+						) : (
+							<p>Nothing to update</p>
+						)}
+					</Col>
+				</Row>
+			</Container>
 
 			<Row style={{ height: '20px' }} />
 

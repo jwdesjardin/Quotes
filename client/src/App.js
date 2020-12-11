@@ -5,33 +5,28 @@ import Authors from './components/authors/authors';
 import Quotes from './components/quotes/quotes';
 import Tags from './components/tags/tags';
 
-import AddAuthor from './components/authors/addAuthor';
 import AddQuote from './components/quotes/addQuote';
-import AddTag from './components/tags/addTag';
 
 import UpdateQuote from './components/quotes/updateQuote';
-import UpdateTag from './components/tags/updateTag';
-
-import AuthorPage from './components/authorPage';
 
 import { ContentContext } from './context/contentContext';
 
 function App() {
-	const { getAllAuthors, getAllQuotes, getAllTags } = useContext(ContentContext);
-
-	useEffect(() => {
-		(async () => {
-			try {
-				await getAllQuotes();
-				await getAllAuthors();
-				await getAllTags();
-				console.log('Component did mount finished.');
-			} catch (error) {
-				console.log(error);
-			}
-		})();
-		// eslint-disable-next-line
-	}, []);
+	// useEffect(
+	// 	() => {
+	// 		(async () => {
+	// 			try {
+	// 				await getAllQuotes();
+	// 				await getAllAuthors();
+	// 				await getAllTags();
+	// 				console.log('Component did mount finished.');
+	// 			} catch (error) {
+	// 				console.log(error);
+	// 			}
+	// 		})();
+	// 	},
+	// 	[ tags, authors, quotes ]
+	// );
 
 	return (
 		<BrowserRouter>
@@ -39,10 +34,6 @@ function App() {
 				<Route exact path='/' render={() => <Redirect to='/tags' />} />
 
 				<Route path='/authors' render={props => <Authors {...props} />} />
-
-				<Route path='/add-author' render={props => <AddAuthor {...props} />} />
-
-				<Route path='/author/:id' render={props => <AuthorPage />} />
 
 				<Route path='/quotes' render={props => <Quotes {...props} />} />
 
@@ -56,9 +47,6 @@ function App() {
 				{/* <Route path='/add-quote-tags' render={props => <AddQuoteTags currentQuote={} appTags={tags} />} /> */}
 
 				<Route path='/tags' render={props => <Tags {...props} />} />
-
-				<Route path='/add-tag' render={props => <AddTag {...props} />} />
-				<Route path='/update-tag/:id' render={props => <UpdateTag {...props} />} />
 			</Switch>
 		</BrowserRouter>
 	);

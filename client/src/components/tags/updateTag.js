@@ -25,13 +25,13 @@ const UpdateTag = ({ updateTag, getTagById, tags, id, setUpdateId }) => {
 
 		try {
 			await updateTag(id, body);
+			closeModule();
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
-	const closeModule = e => {
-		e.preventDefault();
+	const closeModule = () => {
 		setUpdateId(0);
 	};
 
@@ -59,7 +59,14 @@ const UpdateTag = ({ updateTag, getTagById, tags, id, setUpdateId }) => {
 					</Fragment>
 				)}
 
-				<Button className='m-2' variant='secondary' onClick={closeModule}>
+				<Button
+					className='m-2'
+					variant='secondary'
+					onClick={e => {
+						e.preventDefault();
+						closeModule();
+					}}
+				>
 					Close
 				</Button>
 			</div>

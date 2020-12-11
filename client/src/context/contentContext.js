@@ -12,7 +12,7 @@ export const Provider = props => {
 		try {
 			const { data } = await axios.get('http://localhost:5000/author');
 			console.log('setting authors', data);
-			setAuthors(data);
+			if (data) setAuthors([ ...data ]);
 		} catch (error) {
 			console.log(error);
 		}
@@ -22,7 +22,7 @@ export const Provider = props => {
 		try {
 			const { data } = await axios.get('http://localhost:5000/tag');
 			console.log('setting tags', data);
-			setTags(data);
+			if (data) setTags([ ...data ]);
 		} catch (error) {
 			console.log(error);
 		}
@@ -32,7 +32,7 @@ export const Provider = props => {
 		try {
 			const { data } = await axios.get('http://localhost:5000/quote');
 			console.log('setting quotes', data);
-			setQuotes(data);
+			if (data) setQuotes([ ...data ]);
 		} catch (error) {
 			console.log(error);
 		}
@@ -49,18 +49,18 @@ export const Provider = props => {
 		}
 	};
 
-	const updateTag = async (id, body) => {
-		// update db
-		try {
-			const { data } = await axios.put(`http://localhost:5000/tag/${id}`, body);
-			// update state
-			const workingState = [ ...tags ];
-			const filteredTags = workingState.filter(tag => tag.id !== parseInt(id));
-			setTags([ ...filteredTags, data ]);
-		} catch (error) {
-			console.log(error);
-		}
-	};
+	// const updateTag = async (id, body) => {
+	// 	// update db
+	// 	try {
+	// 		const { data } = await axios.put(`http://localhost:5000/tag/${id}`, body);
+	// 		// update state
+	// 		const workingState = [ ...tags ];
+	// 		const filteredTags = workingState.filter(tag => tag.id !== parseInt(id));
+	// 		setTags([ ...filteredTags, data ]);
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// };
 
 	const deleteTag = async id => {
 		// update db
@@ -167,19 +167,32 @@ export const Provider = props => {
 	};
 
 	const updateAuthor = async (id, body) => {
-		// update db
-		axios
-			.put(`http://localhost:5000/author/${id}`, body)
-			.then(({ data }) => {
-				// update state
-				const workingState = [ ...authors ];
-				const filteredAuthors = workingState.filter(author => author.id !== id);
-				setAuthors([ ...filteredAuthors, data ]);
-			})
-			.catch(err => {
-				console.log(err);
-			});
+		try {
+			// update db
+			const { data } = await axios.put(`http://localhost:5000/author/${id}`, body);
+			// update state
+			const workingState = [ ...authors ];
+			const filteredAuthors = workingState.filter(author => author.id !== parseInt(id));
+			setAuthors([ ...filteredAuthors, data ]);
+		} catch (error) {
+			console.log(error);
+		}
 	};
+
+	const updateTag = async (id, body) => {
+		// update db
+		try {
+			const { data } = await axios.put(`http://localhost:5000/tag/${id}`, body);
+			// update state
+			console.log(data, 'hellllooooo');
+			const workingState = [ ...tags ];
+			const filteredTags = workingState.filter(tag => tag.id !== parseInt(id));
+			setTags([ ...filteredTags, data ]);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	const deleteAuthor = async id => {
 		// update db
 		await axios
@@ -196,14 +209,12 @@ export const Provider = props => {
 	};
 
 	const getAuthor = async id => {
-		axios
-			.get(`http://localhost:5000/author/${id}`)
-			.then(({ data }) => {
-				return data;
-			})
-			.catch(err => {
-				console.log(err);
-			});
+		try {
+			const { data } = await axios.get(`http://localhost:5000/author/${id}`);
+			return data;
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	const value = {

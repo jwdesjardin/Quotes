@@ -1,6 +1,5 @@
 import { Container, Form, Button } from 'react-bootstrap';
 import { useRef } from 'react';
-import { Link } from 'react-router-dom';
 
 const AddTag = ({ createTag, setAddTagDisplay }) => {
 	const tagInput = useRef('');

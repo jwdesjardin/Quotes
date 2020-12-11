@@ -1,15 +1,11 @@
 import { Container, Form, Button } from 'react-bootstrap';
-import { useRef, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { ContentContext } from '../../context/contentContext';
+import { useRef } from 'react';
 
-const AddAuthor = props => {
+const AddAuthor = ({ createAuthor, setAddAuthorDisplay }) => {
 	const nameInput = useRef('');
 	const locationInput = useRef('');
 	const bornInput = useRef('');
 	const deadInput = useRef('');
-
-	const { createAuthor } = useContext(ContentContext);
 
 	const submitHandler = async e => {
 		e.preventDefault();
@@ -23,10 +19,14 @@ const AddAuthor = props => {
 
 		try {
 			await createAuthor(body);
-			props.history.push('/authors');
 		} catch (err) {
 			console.log(err);
 		}
+	};
+
+	const closeModule = e => {
+		e.preventDefault();
+		setAddAuthorDisplay(false);
 	};
 
 	return (
@@ -57,11 +57,10 @@ const AddAuthor = props => {
 					Create Author
 				</Button>
 			</Form>
-			<Link to='/'>
-				<Button className='m-3' variant='secondary'>
-					Home
-				</Button>
-			</Link>
+
+			<Button className='m-3' variant='secondary' onClick={closeModule}>
+				Close
+			</Button>
 		</Container>
 	);
 };

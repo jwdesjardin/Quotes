@@ -1,17 +1,21 @@
 import { Container, Button, Row, Card } from 'react-bootstrap';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import LinkBar from '../utils/LinkBar';
 import { ContentContext } from '../../context/contentContext';
+
 import AllTags from './allTags';
 import UpdateTag from './updateTag';
 import AddTag from './addTag';
 
 const Tags = props => {
-	const { deleteTag, updateTag, createTag, getAllTags, tags, getTagById } = useContext(ContentContext);
+	const { deleteTag, updateTag, createTag, tags, getTagById, getAllTags } = useContext(ContentContext);
 
 	const [ updateId, setUpdateId ] = useState(0);
 	const [ addTagDisplay, setAddTagDisplay ] = useState(false);
+
+	useEffect(() => {
+		getAllTags();
+	}, []);
 
 	return (
 		<Container>
@@ -27,9 +31,9 @@ const Tags = props => {
 			{updateId > 0 ? (
 				<UpdateTag
 					tags={tags}
-					setUpdateId={setUpdateId}
 					getTagById={getTagById}
 					updateTag={updateTag}
+					setUpdateId={setUpdateId}
 					id={updateId}
 				/>
 			) : (

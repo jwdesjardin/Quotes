@@ -1,15 +1,8 @@
-import { Container, Form, Button } from 'react-bootstrap';
-import { useRef, useState, useContext, useEffect, Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Row, Form, Button } from 'react-bootstrap';
+import { useRef, useState, useEffect } from 'react';
 
-import { ContentContext } from '../../context/contentContext';
-
-const UpdateQuote = props => {
-	const { authors, quotes, updateQuote, getQuote } = useContext(ContentContext);
-
+const UpdateQuote = ({ updateQuote, getQuote, quotes, id, setUpdateId, authors }) => {
 	const [ currentQuote, setCurrentQuote ] = useState({});
-
-	const { id, history } = props;
 
 	useEffect(
 		() => {
@@ -25,35 +18,40 @@ const UpdateQuote = props => {
 		[ quotes, getQuote, id ]
 	);
 
-	const quoteInputUP = useRef('');
-	const sourceInputUP = useRef('');
-	const yearInputUP = useRef('');
-	const authorInputUP = useRef('');
+	const quoteInput = useRef('');
+	const sourceInput = useRef('');
+	const yearInput = useRef('');
+	const authorInput = useRef(0);
 
 	const updateHandler = async e => {
 		e.preventDefault();
 
 		const body = {
-			verse: quoteInputUP.current.value,
-			sourceText: sourceInputUP.current.value,
-			date: yearInputUP.current.value,
-			AuthorId: authorInputUP.current.value
+			verse: quoteInput.current.value,
+			sourceText: sourceInput.current.value,
+			date: yearInput.current.value,
+			AuthorId: authorInput.current.value
 		};
 
 		try {
 			await updateQuote(id, body);
-			history.push('/quotes');
+			closeModule();
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
+	const closeModule = () => {
+		setUpdateId(0);
+	};
+
 	return (
-		<Container>
-			<Form onSubmit={updateHandler}>
-				<h3>Update Quote</h3>
+		<Row>
+			<div className='border p-4'>
+				<h3>Update Quote: </h3>
+
 				{currentQuote && (
-					<Fragment>
+					<Form onSubmit={updateHandler}>
 						<Form.Group>
 							<Form.Label>Id</Form.Label>
 							<Form.Control type='text' defaultValue={currentQuote.id} disabled />
@@ -61,22 +59,22 @@ const UpdateQuote = props => {
 
 						<Form.Group>
 							<Form.Label>Quote</Form.Label>
-							<Form.Control type='text' defaultValue={currentQuote.verse} ref={quoteInputUP} />
+							<Form.Control type='text' defaultValue={currentQuote.verse} ref={quoteInput} />
 						</Form.Group>
 
 						<Form.Group>
 							<Form.Label>Source</Form.Label>
-							<Form.Control type='text' deafultValue={currentQuote.sourceText} ref={sourceInputUP} />
+							<Form.Control type='text' deafultValue={currentQuote.sourceText} ref={sourceInput} />
 						</Form.Group>
 
 						<Form.Group>
 							<Form.Label>Year</Form.Label>
-							<Form.Control type='text' defaultValue={currentQuote.date} ref={yearInputUP} />
+							<Form.Control type='text' defaultValue={currentQuote.date} ref={yearInput} />
 						</Form.Group>
 
 						<Form.Group>
 							<Form.Label>Author</Form.Label>
-							<Form.Control as='select' ref={authorInputUP} defaultValue={currentQuote.AuthorId}>
+							<Form.Control as='select' ref={authorInput} defaultValue={currentQuote.AuthorId}>
 								{authors &&
 									authors.map(author => (
 										<option key={author.id} value={author.id}>
@@ -85,20 +83,25 @@ const UpdateQuote = props => {
 									))}
 							</Form.Control>
 						</Form.Group>
-					</Fragment>
+
+						<Button className='m-2' variant='primary' type='submit' onClick={updateHandler}>
+							Update Quote
+						</Button>
+					</Form>
 				)}
 
-				<Link to='/'>
-					<Button className='m-3' variant='secondary'>
-						Home
-					</Button>
-				</Link>
-
-				<Button className='m-2' variant='primary' type='submit'>
-					Update Quote
+				<Button
+					className='m-3'
+					variant='secondary'
+					onClick={e => {
+						e.preventDefault();
+						closeModule();
+					}}
+				>
+					Close
 				</Button>
-			</Form>
-		</Container>
+			</div>
+		</Row>
 	);
 };
 

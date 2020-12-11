@@ -1,63 +1,59 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Card, Container, Row, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import LinkBar from '../utils/LinkBar';
 import { ContentContext } from '../../context/contentContext';
 
-const Quotes = props => {
-	const { quotes, deleteQuote } = useContext(ContentContext);
+import UpdateQuote from './updateQuote';
+import AllQuotes from './allQuotes';
+import AddQuote from './addQuote';
 
-	const deleteQuoteHandler = async e => {
-		try {
-			e.preventDefault();
-			const value = e.target.value;
-			console.log('1', value);
-			await deleteQuote(value);
-			console.log('3');
-		} catch (err) {
-			console.log(err);
-		}
-	};
+const Quotes = props => {
+	const {
+		quotes,
+		authors,
+		getAllAuthors,
+		deleteQuote,
+		updateQuote,
+		getQuote,
+		getAllQuotes,
+		createQuote
+	} = useContext(ContentContext);
+
+	const [ updateId, setUpdateId ] = useState(0);
+	const [ addQuoteDisplay, setAddQuoteDisplay ] = useState(false);
+
+	useEffect(() => {
+		getAllQuotes();
+		getAllAuthors();
+	}, []);
 
 	return (
 		<Container>
-			<LinkBar />
+			<h1 className='mb-3'>Quotes</h1>
+			<Button onClick={() => setAddQuoteDisplay(true)}>Add Quote</Button>
 
 			<Row style={{ height: '20px' }} />
 
-			<Row>
-				<ul>
-					{quotes &&
-						quotes.map((quote, index) => {
-							return (
-								<li key={index}>
-									<Card style={{ width: '18rem' }}>
-										<Card.Body>
-											<Card.Text>
-												{quote.verse}
-												{quote.sourceText && `- ${quote.sourceText}`}
-												{quote.date && `- ${quote.date}`}
-											</Card.Text>
-											<Button
-												onClick={deleteQuoteHandler}
-												className='m-1'
-												variant={'danger'}
-												value={quote.id}
-											>
-												Delete Quote
-											</Button>
-											<Link to={`/update-quote/${quote.id}`}>
-												<Button className='m-1' variant={'info'} value={quote.id}>
-													Update Quote
-												</Button>
-											</Link>
-										</Card.Body>
-									</Card>
-								</li>
-							);
-						})}
-				</ul>
-			</Row>
+			<AllQuotes deleteQuote={deleteQuote} quotes={quotes} setUpdateId={setUpdateId} />
+
+			<Row style={{ height: '20px' }} />
+
+			{updateId > 0 ? (
+				<UpdateQuote
+					quotes={quotes}
+					getQuote={getQuote}
+					updateQuote={updateQuote}
+					setUpdateId={setUpdateId}
+					id={updateId}
+					authors={authors}
+				/>
+			) : (
+				<p>Nothing to update</p>
+			)}
+
+			{addQuoteDisplay && (
+				<AddQuote createQuote={createQuote} setAddQuoteDisplay={setAddQuoteDisplay} authors={authors} />
+			)}
 
 			<Row style={{ height: '20px' }} />
 

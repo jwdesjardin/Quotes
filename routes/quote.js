@@ -78,6 +78,7 @@ router.put(
 			errorHandler(404, 'Request Body not found');
 		}
 		if (quote) {
+			console.log(quote, 'quoteeeee');
 			await quote.update(req.body);
 			res.status(201).json(quote);
 		} else {

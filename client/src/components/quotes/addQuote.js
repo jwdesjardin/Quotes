@@ -1,12 +1,7 @@
 import { Container, Form, Button } from 'react-bootstrap';
-import { useRef, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useRef } from 'react';
 
-import { ContentContext } from '../../context/contentContext';
-
-const AddQuote = props => {
-	const { authors, createQuote } = useContext(ContentContext);
-
+const AddQuote = ({ createQuote, setAddQuoteDisplay, authors }) => {
 	const quoteInput = useRef('');
 	const sourceInput = useRef('');
 	const yearInput = useRef('');
@@ -24,10 +19,14 @@ const AddQuote = props => {
 
 		try {
 			await createQuote(body);
-			props.history.push('/quotes');
+			closeModule();
 		} catch (err) {
 			console.log(err);
 		}
+	};
+
+	const closeModule = () => {
+		setAddQuoteDisplay(false);
 	};
 
 	return (
@@ -67,11 +66,16 @@ const AddQuote = props => {
 				</Button>
 			</Form>
 
-			<Link to='/'>
-				<Button className='m-3' variant='secondary'>
-					Home
-				</Button>
-			</Link>
+			<Button
+				className='m-3'
+				variant='secondary'
+				onClick={e => {
+					e.preventDefault();
+					closeModule();
+				}}
+			>
+				Close
+			</Button>
 		</Container>
 	);
 };

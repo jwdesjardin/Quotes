@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
-import { Container, Card, Button, Row } from 'react-bootstrap';
+import { Container, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { ContentContext } from '../../context/contentContext';
 
@@ -20,29 +20,35 @@ const Authors = props => {
 	return (
 		<Container>
 			<h1 className='mb-3'>Authors</h1>
+			<Row style={{ height: '20px' }} />
 			<Button onClick={() => setAddAuthorDisplay(true)}>Add Author</Button>
-
-			<Row style={{ height: '20px' }} />
-
-			<AllAuthors authors={authors} deleteAuthor={deleteAuthor} setUpdateId={setUpdateId} />
-
-			<Row style={{ height: '20px' }} />
-
-			{updateId > 0 ? (
-				<UpdateAuthor
-					authors={authors}
-					getAuthor={getAuthor}
-					updateAuthor={updateAuthor}
-					setUpdateId={setUpdateId}
-					id={updateId}
-				/>
-			) : (
-				<p>Nothing to update</p>
-			)}
-
-			<Row style={{ height: '20px' }} />
-
-			{addAuthorDisplay && <AddAuthor createAuthor={createAuthor} setAddAuthorDisplay={setAddAuthorDisplay} />}
+			<Container>
+				<Row>
+					<Col className='m-3'>
+						<Row>
+							<AllAuthors authors={authors} deleteAuthor={deleteAuthor} setUpdateId={setUpdateId} />
+						</Row>
+					</Col>
+					<Col className='m-3'>
+						{addAuthorDisplay && (
+							<AddAuthor createAuthor={createAuthor} setAddAuthorDisplay={setAddAuthorDisplay} />
+						)}
+					</Col>
+					<Col className='m-3'>
+						{updateId > 0 ? (
+							<UpdateAuthor
+								authors={authors}
+								getAuthor={getAuthor}
+								updateAuthor={updateAuthor}
+								setUpdateId={setUpdateId}
+								id={updateId}
+							/>
+						) : (
+							<p>Nothing to update</p>
+						)}
+					</Col>
+				</Row>
+			</Container>
 
 			<Row style={{ height: '20px' }} />
 

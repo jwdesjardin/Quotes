@@ -1,6 +1,6 @@
 import { Card, Button, Row } from 'react-bootstrap';
 
-const AllQuotes = ({ quotes, deleteQuote, setUpdateId }) => {
+const AllQuotes = ({ quotes, deleteQuote, setUpdateId, setAddTagsDisplayId }) => {
 	const deleteQuoteHandler = async e => {
 		try {
 			e.preventDefault();
@@ -41,6 +41,18 @@ const AllQuotes = ({ quotes, deleteQuote, setUpdateId }) => {
 
 										<Button className='m-1' variant='info' onClick={toggleUpdate} value={quote.id}>
 											Update Quote
+										</Button>
+
+										<Button
+											className='m-1'
+											variant='warning'
+											onClick={e => {
+												e.preventDefault();
+												setAddTagsDisplayId(quote.Id);
+											}}
+											value={quote.id}
+										>
+											Add Tags
 										</Button>
 									</Card.Body>
 								</Card>

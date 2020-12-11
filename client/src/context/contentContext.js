@@ -215,6 +215,24 @@ export const Provider = props => {
 		}
 	};
 
+	const addQuoteTag = async (quoteId, tagName) => {
+		try {
+			await axios.post(`http://localhost:5000/quote/${quoteId}/${tagName}`);
+			return 'success';
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const removeQuoteTag = async (quoteId, tagName) => {
+		try {
+			await axios.delete(`http://localhost:5000/quote/${quoteId}/${tagName}`);
+			return 'success';
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	const value = {
 		authors,
 		quotes,
@@ -234,7 +252,9 @@ export const Provider = props => {
 		getTagById,
 		createTag,
 		updateTag,
-		deleteTag
+		deleteTag,
+		addQuoteTag,
+		removeQuoteTag
 	};
 
 	return <ContentContext.Provider value={value}>{props.children}</ContentContext.Provider>;

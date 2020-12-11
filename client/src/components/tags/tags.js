@@ -29,6 +29,7 @@ const Tags = props => {
 							<AllTags deleteTag={deleteTag} tags={tags} setUpdateId={setUpdateId} />
 						</Row>
 					</Col>
+
 					<Col className='m-3'>
 						{addTagDisplay && <AddTag createTag={createTag} setAddTagDisplay={setAddTagDisplay} />}
 					</Col>

@@ -6,9 +6,11 @@ import { ContentContext } from '../../context/contentContext';
 import UpdateQuote from './updateQuote';
 import AllQuotes from './allQuotes';
 import AddQuote from './addQuote';
+import AddQuoteTags from './addQuoteTags';
 
 const Quotes = props => {
 	const {
+		tags,
 		quotes,
 		authors,
 		getAllAuthors,
@@ -16,11 +18,14 @@ const Quotes = props => {
 		updateQuote,
 		getQuote,
 		getAllQuotes,
-		createQuote
+		createQuote,
+		addQuoteTag,
+		removeQuoteTag
 	} = useContext(ContentContext);
 
 	const [ updateId, setUpdateId ] = useState(0);
 	const [ addQuoteDisplay, setAddQuoteDisplay ] = useState(false);
+	const [ addTagsDisplayId, setAddTagsDisplayId ] = useState(0);
 
 	useEffect(() => {
 		getAllQuotes();
@@ -36,7 +41,12 @@ const Quotes = props => {
 				<Row>
 					<Col className='m-3'>
 						<Row>
-							<AllQuotes deleteQuote={deleteQuote} quotes={quotes} setUpdateId={setUpdateId} />
+							<AllQuotes
+								deleteQuote={deleteQuote}
+								quotes={quotes}
+								setUpdateId={setUpdateId}
+								setAddTagsDisplayId={setAddTagsDisplayId}
+							/>
 						</Row>
 					</Col>
 
@@ -62,6 +72,22 @@ const Quotes = props => {
 							/>
 						) : (
 							<p>Nothing to update</p>
+						)}
+					</Col>
+
+					<Col className='m-3'>
+						{addTagsDisplayId > 0 ? (
+							<AddQuoteTags
+								tags={tags}
+								quotes={quotes}
+								getQuote={getQuote}
+								addQuoteTag={addQuoteTag}
+								removeQuoteTag={removeQuoteTag}
+								setAddTagsDisplayId={setAddTagsDisplayId}
+								quoteId={addTagsDisplayId}
+							/>
+						) : (
+							<p>No Quote Selected</p>
 						)}
 					</Col>
 				</Row>
